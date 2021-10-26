@@ -7,7 +7,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/haardikdharma10/kubearmor-adapter/pkg/report"
+	report "github.com/haardikdharma10/kubearmor-adapter/pkg/report"
+	//policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
 	pb "github.com/kubearmor/KubeArmor/protobuf"
 	"google.golang.org/grpc"
 
@@ -60,7 +61,21 @@ func main() {
 
 					//fmt.Printf("Alert:  %v\n", res) //TODO : Not print here, comment this line later;
 					//Put something like a debug flag and print it (pick a level logger) zap/glog/klog
-					report.Create(res) //Push res to a channel and then have the workers
+					r, err := report.New(res) //Push res to a channel and then have the workers
+
+					if err != nil {
+						fmt.Printf("failed to create policy reports: %v \n", err)
+						os.Exit(-1)
+					}
+
+					fmt.Printf("Created policy report!")
+
+					//r, err = report.Write(r, "multiubuntu", "string")
+					if err != nil {
+						fmt.Printf("failed to create policy reports: %v \n", err)
+						os.Exit(-1)
+					}
+					fmt.Printf("wrote policy report %s \n", r.Name)
 				}
 			}
 		} else {

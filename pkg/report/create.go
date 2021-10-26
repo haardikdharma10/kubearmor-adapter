@@ -12,7 +12,7 @@ import (
 //global variable to keep the source-name static
 const PolicyReportSource string = "KubeArmor Policy Engine"
 
-func Create(alert *pb.Alert) (*policyreport.PolicyReport, error) {
+func New(alert *pb.Alert) (*policyreport.PolicyReport, error) {
 
 	report := &policyreport.PolicyReport{
 		ObjectMeta: metav1.ObjectMeta{
