@@ -72,7 +72,7 @@ func main() {
 
 					fmt.Printf("Created policy report!")
 
-					r, err = report.Write(r, "multiubuntu", "")
+					r, err = report.Write(r, "multiubuntu", "~/.kube/config")
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
