@@ -14,10 +14,11 @@ import (
 	"k8s.io/klog"
 
 	//policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
-	policyreport "sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
+	//"github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
+	"sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
 )
 
-func Write(r *policyreport.PolicyReport, namespace string, kubeconfigPath string) (*policyreport.PolicyReport, error) {
+func Write(r *v1alpha2.PolicyReport, namespace string, kubeconfigPath string) (*v1alpha2.PolicyReport, error) {
 	var kubeconfig *rest.Config
 
 	cfg, err := rest.InClusterConfig()

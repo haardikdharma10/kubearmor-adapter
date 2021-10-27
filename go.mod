@@ -4,7 +4,6 @@ go 1.17
 
 require (
 	github.com/kubearmor/KubeArmor/protobuf v0.0.0-20210921092333-eee569cd15b1
-	github.com/pingcap/errors v0.11.4
 	google.golang.org/grpc v1.38.0
 	k8s.io/api v0.22.2
 	k8s.io/apimachinery v0.22.2

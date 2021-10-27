@@ -3,8 +3,9 @@ package report
 import (
 	"strconv"
 
-	"github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
-	policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
+	//"github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
+	"sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
+	//policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
 	pb "github.com/kubearmor/KubeArmor/protobuf"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -12,9 +13,9 @@ import (
 //global variable to keep the source-name static
 const PolicyReportSource string = "KubeArmor Policy Engine"
 
-func New(alert *pb.Alert) (*policyreport.PolicyReport, error) {
+func New(alert *pb.Alert) (*v1alpha2.PolicyReport, error) {
 
-	report := &policyreport.PolicyReport{
+	report := &v1alpha2.PolicyReport{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "KubeArmor Policy Report",
 		},
@@ -34,7 +35,7 @@ func New(alert *pb.Alert) (*policyreport.PolicyReport, error) {
 	return report, nil
 }
 
-func newResult(Alert *pb.Alert) *policyreport.PolicyReportResult {
+func newResult(Alert *pb.Alert) *v1alpha2.PolicyReportResult {
 
 	var sev string
 
@@ -47,7 +48,7 @@ func newResult(Alert *pb.Alert) *policyreport.PolicyReportResult {
 	}
 
 	//Mapping:-
-	return &policyreport.PolicyReportResult{
+	return &v1alpha2.PolicyReportResult{
 
 		Source: PolicyReportSource,
 		Policy: Alert.PolicyName,

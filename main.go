@@ -12,6 +12,8 @@ import (
 	pb "github.com/kubearmor/KubeArmor/protobuf"
 	"google.golang.org/grpc"
 
+	//"sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
+
 	"syscall"
 )
 
@@ -70,7 +72,7 @@ func main() {
 
 					fmt.Printf("Created policy report!")
 
-					//r, err = report.Write(r, "multiubuntu", "string")
+					r, err = report.Write(r, "multiubuntu", "string")
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
@@ -86,13 +88,3 @@ func main() {
 	<-sigChan
 	close(StopChan)
 }
-
-// func convert(jsonString string) (*LogsFromKubeArmor, error) {
-// 	jsonDataReader := strings.NewReader(jsonString)
-// 	decoder := json.NewDecoder(jsonDataReader)
-// 	var controls LogsFromKubeArmor
-// 	if err := decoder.Decode(&controls); err != nil {
-// 		return nil, err
-// 	}
-// 	return &controls, nil
-// }
