@@ -17,7 +17,7 @@ func New(alert *pb.Alert) (*v1alpha2.PolicyReport, error) {
 
 	report := &v1alpha2.PolicyReport{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: "KubeArmor Policy Report",
+			Name: "kubearmor-policy-report",
 		},
 		Summary: v1alpha2.PolicyReportSummary{
 			Fail: 1,
