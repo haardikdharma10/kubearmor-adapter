@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"path/filepath"
 
 	"os"
 	"os/signal"
 
 	report "github.com/haardikdharma10/kubearmor-adapter/pkg/report"
+	"k8s.io/client-go/util/homedir"
+
 	//policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
 	pb "github.com/kubearmor/KubeArmor/protobuf"
 	"google.golang.org/grpc"
@@ -72,7 +75,7 @@ func main() {
 
 					fmt.Printf("Created policy report!")
 
-					r, err = report.Write(r, "multiubuntu", "~/.kube/config")
+					r, err = report.Write(r, "multiubuntu", filepath.Join(homedir.HomeDir(), ".kube", "config"))
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
