@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"path/filepath"
 
@@ -37,7 +38,22 @@ func main() {
 
 	StopChan := make(chan struct{})
 
-	conn, err := grpc.Dial("localhost:32767", grpc.WithInsecure()) //make it configurable
+	gRPCPtr := flag.String("gRPC", "", "gRPC server information")
+
+	flag.Parse()
+	gRPC := ""
+
+	if *gRPCPtr != "" {
+		gRPC = *gRPCPtr
+	} else {
+		if val, ok := os.LookupEnv("KUBEARMOR_SERVICE"); ok {
+			gRPC = val
+		} else {
+			gRPC = "localhost:32767"
+		}
+	}
+
+	conn, err := grpc.Dial(gRPC, grpc.WithInsecure())
 
 	if err != nil {
 		fmt.Print(err.Error())
