@@ -39,6 +39,7 @@ func main() {
 	StopChan := make(chan struct{})
 
 	gRPCPtr := flag.String("gRPC", "", "gRPC server information")
+	namespacePtr := flag.String("namespace", "", "namespace of the cluster")
 
 	flag.Parse()
 	gRPC := ""
@@ -51,6 +52,14 @@ func main() {
 		} else {
 			gRPC = "localhost:32767"
 		}
+	}
+
+	nameSpace := ""
+
+	if *namespacePtr != "" {
+		nameSpace = *namespacePtr
+	} else {
+		nameSpace = "default"
 	}
 
 	conn, err := grpc.Dial(gRPC, grpc.WithInsecure())
@@ -89,9 +98,9 @@ func main() {
 						os.Exit(-1)
 					}
 
-					fmt.Printf("Created policy report!")
+					//fmt.Printf("Created policy report!")
 
-					r, err = report.Write(r, "multiubuntu", filepath.Join(homedir.HomeDir(), ".kube", "config"))
+					r, err = report.Write(r, nameSpace, filepath.Join(homedir.HomeDir(), ".kube", "config"))
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
