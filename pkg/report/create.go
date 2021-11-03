@@ -3,14 +3,11 @@ package report
 import (
 	"strconv"
 
-	//"github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
-	"sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
-	//policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
 	pb "github.com/kubearmor/KubeArmor/protobuf"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
 )
 
-//global variable to keep the source-name static
 const PolicyReportSource string = "KubeArmor Policy Engine"
 
 func New(alert *pb.Alert) (*v1alpha2.PolicyReport, error) {
@@ -20,18 +17,11 @@ func New(alert *pb.Alert) (*v1alpha2.PolicyReport, error) {
 			Name: "kubearmor-policy-report",
 		},
 		Summary: v1alpha2.PolicyReportSummary{
-			Fail: 1,
+			Fail: 0,
 		},
 	}
-
-	//Storing the result obtained after mapping in "r".
 	r := newResult(alert)
-
-	//appending to policyreport result.
 	report.Results = append(report.Results, r)
-
-	//fmt.Printf("Created policy-report %q.\n", result.GetObjectMeta().GetName())
-
 	return report, nil
 }
 
@@ -46,19 +36,18 @@ func newResult(Alert *pb.Alert) *v1alpha2.PolicyReportResult {
 	} else {
 		sev = "high"
 	}
-
-	//Mapping:-
 	return &v1alpha2.PolicyReportResult{
 
-		Source: PolicyReportSource,
-		Policy: Alert.PolicyName,
-		Scored: false,
-		// Timestamp:   metav1.Timestamp{Seconds: int64(Alert.UpdatedTime), Nanos: int32(Alert.Timestamp.Nanosecond())},
+		Source:      PolicyReportSource,
+		Policy:      Alert.PolicyName,
+		Scored:      false,
+		Timestamp:   metav1.Timestamp{Seconds: int64(Alert.Timestamp), Nanos: int32(Alert.Timestamp)},
 		Severity:    v1alpha2.PolicyResultSeverity(sev),
 		Result:      "fail",
 		Description: Alert.Message,
 		Category:    Alert.Type,
 		Properties: map[string]string{
+			"updated_time":   Alert.UpdatedTime,
 			"cluster_name":   Alert.ClusterName,
 			"host_name":      Alert.HostName,
 			"namespace_name": Alert.NamespaceName,
@@ -69,12 +58,12 @@ func newResult(Alert *pb.Alert) *v1alpha2.PolicyReportResult {
 			"ppid":           strconv.Itoa(int(Alert.PPID)),
 			"pid":            strconv.Itoa(int(Alert.PID)),
 			"tags":           Alert.Tags,
-			//"source" : Alert.Source,
-			"operation": Alert.Operation,
-			"resource":  Alert.Resource,
-			"data":      Alert.Data,
-			"action":    Alert.Action,
-			//"result" : Alert.Result,
+			"source":         Alert.Source,
+			"operation":      Alert.Operation,
+			"resource":       Alert.Resource,
+			"data":           Alert.Data,
+			"action":         Alert.Action,
+			"result":         Alert.Result,
 		},
 	}
 }
