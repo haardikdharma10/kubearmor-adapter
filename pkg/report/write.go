@@ -43,7 +43,6 @@ func Write(r *v1alpha2.PolicyReport, namespace string, kubeconfigPath string) (*
 		if err != nil {
 			return nil, err
 		}
-		result.Summary.Fail++
 	} else {
 
 		// Update existing Policy Report
@@ -70,7 +69,6 @@ func Write(r *v1alpha2.PolicyReport, namespace string, kubeconfigPath string) (*
 			panic(fmt.Errorf("update failed: %v", retryErr))
 		}
 		fmt.Println("updated policy report...")
-		result.Summary.Fail++
 	}
 	return result, nil
 }
