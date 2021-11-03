@@ -4,21 +4,15 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"path/filepath"
-
 	"os"
 	"os/signal"
+	"path/filepath"
+	"syscall"
 
 	report "github.com/haardikdharma10/kubearmor-adapter/pkg/report"
-	"k8s.io/client-go/util/homedir"
-
-	//policyreport "github.com/haardikdharma10/kubearmor-adapter/pkg/api/wgpolicyk8s.io/v1alpha2"
 	pb "github.com/kubearmor/KubeArmor/protobuf"
 	"google.golang.org/grpc"
-
-	//"sigs.k8s.io/wg-policy-prototypes/policy-report/pkg/api/wgpolicyk8s.io/v1alpha2"
-
-	"syscall"
+	"k8s.io/client-go/util/homedir"
 )
 
 func GetOSSigChannel() chan os.Signal {
@@ -93,6 +87,9 @@ func main() {
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
+					}
+					if r.Summary.Fail >= 0 {
+						r.Summary.Fail++
 					}
 					fmt.Printf("wrote policy report %s \n", r.Name)
 				}
