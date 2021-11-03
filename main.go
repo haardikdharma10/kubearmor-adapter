@@ -88,9 +88,6 @@ func main() {
 						os.Exit(-1)
 					}
 					fmt.Printf("wrote policy report %s \n", r.Name)
-					if r.Summary.Fail >= 0 {
-						r.Summary.Fail++
-					}
 				}
 			}
 		} else {
