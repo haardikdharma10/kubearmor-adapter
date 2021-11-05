@@ -68,9 +68,9 @@ func Write(r *v1alpha2.PolicyReport, namespace string, kubeconfigPath string) (*
 			panic(fmt.Errorf("update failed: %v", retryErr))
 		}
 		fmt.Println("updated policy report...")
-	}
-	if result.Summary.Fail >= 0 {
-		result.Summary.Fail++
+		if r.Summary.Fail >= 0 {
+			r.Summary.Fail++
+		}
 	}
 	return result, nil
 }
