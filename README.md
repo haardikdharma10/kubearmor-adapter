@@ -28,7 +28,7 @@ kubectl create -f crd/v1alpha2/wgpolicyk8s.io_policyreports.yaml
 # 4. Run main.go program
 go run main.go
 ```
-**Note:** Make sure you have the KubeArmor service running in the background. If not, you can cd into `KubeArmor/KubeArmor` and run `make clean && make run`. 
+**Note:** Make sure you have the KubeArmor service running in the background before you run this command. If not, you can cd into `KubeArmor/KubeArmor` and run `make clean && make run`. 
 
 ```sh
 # 5. Open a new terminal window and deploy the multiubuntu microservice.
@@ -48,7 +48,7 @@ kubectl -n [namespace-name] exec -it [pod-name] -- bash -c "/bin/sleep 1"
 ```
 **Note:** In this example, namespace-name is `multiubuntu` and you can get the pod name by running `kubectl get pods -n multiubuntu`. An example pod-name is `ubuntu-1-deployment-5d6b975744-rrkhh`.
 
-Once this command is executed, you'll get the output as below in the termninal window where `main.go` is running:
+Once this command is executed, you'll get the output as below in the terminal window where `main.go` is running:
 
 ![image](/assets/create-output.png)
 
@@ -67,7 +67,7 @@ kubectl get policyreports -n multiubuntu -o yaml
 ```
 To view the report in a separate yaml file you can use:
 ```sh
-kubectl get clusterpolicyreports -o yaml > res.yaml
+kubectl get policyreports -o yaml > res.yaml
 ```
 A new file `res.yaml` will be created in the kubearmor-adapter directory. You can view it by running `cat res.yaml`.
 
