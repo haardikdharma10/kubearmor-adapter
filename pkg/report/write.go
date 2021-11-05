@@ -44,12 +44,14 @@ func Write(r *v1alpha2.PolicyReport, namespace string, kubeconfigPath string) (*
 			return nil, err
 		}
 	} else {
-
 		// Update existing Policy Report
 		fmt.Println("updating policy report...")
 		retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 
 			getObj, err := policyReport.Get(context.TODO(), r.GetName(), metav1.GetOptions{})
+			if getObj.Summary.Fail >= 0 {
+				getObj.Summary.Fail++
+			}
 			if errors.IsNotFound(err) {
 				// This doesnt ever happen even if it is already deleted or not found
 				log.Printf("%v not found", r.GetName())

@@ -20,9 +20,6 @@ func New(alert *pb.Alert) (*v1alpha2.PolicyReport, error) {
 			Fail: 0,
 		},
 	}
-	if report.Summary.Fail >= 0 {
-		report.Summary.Fail++
-	}
 	r := newResult(alert)
 	report.Results = append(report.Results, r)
 	return report, nil
