@@ -10,22 +10,26 @@ import (
 
 const PolicyReportSource string = "KubeArmor Policy Engine"
 
-func New(alert *pb.Alert) (*v1alpha2.PolicyReport, error) {
+//slice of policy reports
+var policyReports = make(map[string]*v1alpha2.PolicyReport)
 
-	report := &v1alpha2.PolicyReport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "kubearmor-policy-report",
-		},
-		Summary: v1alpha2.PolicyReportSummary{
-			Fail: 0,
-		},
-	}
-	if report.Summary.Fail >= 0 {
-		report.Summary.Fail++
+func New(alert *pb.Alert, namespace string) (*v1alpha2.PolicyReport, error) {
+
+	//policy report doesn't exist and needs to be created
+	if policyReports[namespace] == nil {
+
+		policyReports[namespace] = &v1alpha2.PolicyReport{
+			ObjectMeta: metav1.ObjectMeta{
+				Name: "kubearmor-policy-report",
+			},
+			Summary: v1alpha2.PolicyReportSummary{
+				Fail: 0,
+			},
+		}
 	}
 	r := newResult(alert)
-	report.Results = append(report.Results, r)
-	return report, nil
+	policyReports[namespace].Results = append(policyReports[namespace].Results, r)
+	return policyReports[namespace], nil
 }
 
 func newResult(Alert *pb.Alert) *v1alpha2.PolicyReportResult {

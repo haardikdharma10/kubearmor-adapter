@@ -76,13 +76,13 @@ func main() {
 
 					//fmt.Printf("Alert:  %v\n", res) //TODO : Not print here, comment this line later;
 					//Put something like a debug flag and print it (pick a level logger) zap/glog/klog
-					r, err := report.New(res) //Push res to a channel and then have the workers
+					r, err := report.New(res, res.NamespaceName) //Push res to a channel and then have the workers
 
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
 					}
-					r, err = report.Write(r, "multiubuntu", filepath.Join(homedir.HomeDir(), ".kube", "config"))
+					r, err = report.Write(r, res.NamespaceName, filepath.Join(homedir.HomeDir(), ".kube", "config"))
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
