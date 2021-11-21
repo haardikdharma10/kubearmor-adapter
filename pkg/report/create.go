@@ -28,6 +28,9 @@ func New(alert *pb.Alert, namespace string) (*v1alpha2.PolicyReport, error) {
 		}
 	}
 	r := newResult(alert)
+	if r.Result == "fail" {
+		policyReports[namespace].Summary.Fail++
+	}
 	policyReports[namespace].Results = append(policyReports[namespace].Results, r)
 	return policyReports[namespace], nil
 }
