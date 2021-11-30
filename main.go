@@ -73,13 +73,13 @@ func main() {
 						fmt.Print("system alerts stream stopped: " + err.Error())
 					}
 
-					r, err := report.New(res, "multiubuntu")
+					r, err := report.New(res, res.NamespaceName)
 
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)
 					}
-					r, err = report.Write(r, "multiubuntu", filepath.Join(homedir.HomeDir(), ".kube", "config"))
+					r, err = report.Write(r, res.NamespaceName, filepath.Join(homedir.HomeDir(), ".kube", "config"))
 					if err != nil {
 						fmt.Printf("failed to create policy reports: %v \n", err)
 						os.Exit(-1)

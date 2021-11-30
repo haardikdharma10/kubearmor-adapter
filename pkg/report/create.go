@@ -51,7 +51,7 @@ func newResult(Alert *pb.Alert) *v1alpha2.PolicyReportResult {
 		Source:      PolicyReportSource,
 		Policy:      Alert.PolicyName,
 		Scored:      false,
-		Timestamp:   metav1.Timestamp{Seconds: int64(Alert.Timestamp), Nanos: int32(Alert.Timestamp)},
+		Timestamp:   metav1.Timestamp{Seconds: Alert.Timestamp, Nanos: int32(Alert.Timestamp)},
 		Severity:    v1alpha2.PolicyResultSeverity(sev),
 		Result:      "fail",
 		Description: Alert.Message,
